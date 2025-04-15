@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-simple-movies/static/css/main.f8cdc4b7.css",
-    "main.js": "/react-simple-movies/static/js/main.1f620fe3.js",
+    "main.css": "/react-simple-movies/static/css/main.9b8e3261.css",
+    "main.js": "/react-simple-movies/static/js/main.c445a931.js",
     "static/js/453.d58a996c.chunk.js": "/react-simple-movies/static/js/453.d58a996c.chunk.js",
     "index.html": "/react-simple-movies/index.html",
-    "main.f8cdc4b7.css.map": "/react-simple-movies/static/css/main.f8cdc4b7.css.map",
-    "main.1f620fe3.js.map": "/react-simple-movies/static/js/main.1f620fe3.js.map",
+    "main.9b8e3261.css.map": "/react-simple-movies/static/css/main.9b8e3261.css.map",
+    "main.c445a931.js.map": "/react-simple-movies/static/js/main.c445a931.js.map",
     "453.d58a996c.chunk.js.map": "/react-simple-movies/static/js/453.d58a996c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f8cdc4b7.css",
-    "static/js/main.1f620fe3.js"
+    "static/css/main.9b8e3261.css",
+    "static/js/main.c445a931.js"
   ]
 }

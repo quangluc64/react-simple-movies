@@ -14,8 +14,11 @@
 // Tổ chức các khối giao diện (components): .btn, .card, .page-container,...
 @layer components{
   .page-container{
-    max-width: 1024px;
+    max-width: 1200px;
     @apply mx-auto;
+  }
+  .movie-list .swiper-slide{
+    width: 300px;
   }
 }
 

@@ -38,50 +38,17 @@ export default function App() {
       {/*  ==== Now Playing ==== */}
       <section className="movies-layout page-container mb-20">
         <h2 className="text-white text-2xl font-bold mb-10">Now Playing</h2>
-        <MovieList></MovieList>
-      
+        <MovieList type="now_playing"></MovieList>
       </section>
       {/*  ==== Top Rated ==== */}
       <section className="movies-layout page-container mb-20">
         <h2 className="text-white text-2xl font-bold mb-10">Top Rated</h2>
-        <div className="movie-list grid grid-cols-3 gap-10">
-          <div className="movie-card p-3 bg-slate-800 rounded-2xl text-white">
-            <img
-              src="https://lumiere-a.akamaihd.net/v1/images/102_gza1510_comp_v002_c5fae827.jpeg?region=0%2C0%2C3840%2C2160"
-              alt=""
-              className="w-full h-[250px] object-cover rounded-xl mb-5"
-            />
-            <h3 className="text-xl font-bold mb-3">Spiderman: Homecomming</h3>
-            <div className="flex items-center justify-between text-sm opacity-50 mb-5">
-              <span>2017</span>
-              <span>7.4</span>
-            </div>
-            <button className="w-full px-6 py-3 bg-primary rounded-lg font-bold text-xl">
-              Watch Now
-            </button>
-          </div>
-        </div>
+        <MovieList type="top_rated"></MovieList>
       </section>
       {/*  ==== Trending ==== */}
       <section className="movies-layout page-container mb-20">
         <h2 className="text-white text-2xl font-bold mb-10">Trending</h2>
-        <div className="movie-list grid grid-cols-3 gap-10">
-          <div className="movie-card p-3 bg-slate-800 rounded-2xl text-white">
-            <img
-              src="https://lumiere-a.akamaihd.net/v1/images/102_gza1510_comp_v002_c5fae827.jpeg?region=0%2C0%2C3840%2C2160"
-              alt=""
-              className="w-full h-[250px] object-cover rounded-xl mb-5"
-            />
-            <h3 className="text-xl font-bold mb-3">Spiderman: Homecomming</h3>
-            <div className="flex items-center justify-between text-sm opacity-50 mb-5">
-              <span>2017</span>
-              <span>7.4</span>
-            </div>
-            <button className="w-full px-6 py-3 bg-primary rounded-lg font-bold text-xl">
-              Watch Now
-            </button>
-          </div>
-        </div>
+        <MovieList type="popular"></MovieList>
       </section>
     </Fragment>
   );

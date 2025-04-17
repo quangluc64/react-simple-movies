@@ -15,7 +15,7 @@ const MovieList = ({type}) => {
       setMovies(data.results);
     }
   }, [data]); // chỉ chạy khi `data` thay đổi
-  console.log(movies);
+  // console.log(movies);
   return (
     <div className="movie-list">
       <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>

@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,24 +6,21 @@
 // Áp dụng style toàn cục
 @layer base {
   body {
-    @apply bg-slate-900 font-body px-5;
+    @apply bg-slate-900 font-body text-white;
   }
 }
 // Tạo class tái sử dụng nhiều lần
 // Tổ chức các khối giao diện (components): .btn, .card, .page-container,...
-@layer components{
-  .page-container{
+@layer components {
+  .page-container {
     max-width: 1200px;
     @apply mx-auto;
   }
-  .movie-list .swiper-slide{
+  .movie-list .swiper-slide {
     width: 300px;
     height: auto;
   }
-  .banner .swiper{
+  .banner .swiper {
     height: 100%;
   }
 }
-
-
-

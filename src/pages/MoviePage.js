@@ -10,7 +10,7 @@ const MoviePage = () => {
   );
   const movies = data?.results || [];
   return (
-    <div className="py-5">
+    <div className="py-5 page-container">
       <div className="flex mb-10">
         <div className="flex-1">
           <input

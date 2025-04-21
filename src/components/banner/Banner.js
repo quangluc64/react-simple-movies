@@ -32,8 +32,8 @@ const Banner = () => {
     </section>
   );
 };
-function BannerItem({item}) {
-  const { title, poster_path} = item;
+function BannerItem({ item }) {
+  const { title, poster_path } = item;
   return (
     <div className="w-full h-full rounded-xl bg-white relative">
       <div className="overlay absolute inset-0 rounded-xl bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)]"></div>

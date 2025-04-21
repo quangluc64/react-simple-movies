@@ -10,8 +10,6 @@ const MovieDetailsPage = () => {
     fetcher
   );
   if (!data) return null; // hoặc return loading...
-  console.log(data);
-
   const { backdrop_path, poster_path, title, genres } = data;
   return (
     <div className="py-10">
@@ -27,14 +25,12 @@ const MovieDetailsPage = () => {
       </div>
       <div className="max-w-[800px] h-[500px] mx-auto -mt-[250px] relative z-1 pb-10">
         <img
-          src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt=""
-          className="w-full h-full object-cover rounded-2xl"
+          className="w-full h-full object-cover object-[0_20%] rounded-2xl"
         />
       </div>
-      <h1 className="text-center text-3xl font-bold mb-10">
-        {title}
-      </h1>
+      <h1 className="text-center text-3xl font-bold mb-10">{title}</h1>
       <div className="flex justify-center gap-x-10 text-lg font-bold text-[#7D6AFF] mb-10">
         {genres.length > 0 &&
           genres.map((item) => (
@@ -46,7 +42,7 @@ const MovieDetailsPage = () => {
             </span>
           ))}
       </div>
-      <p className="w-[800px] mx-auto text-center">
+      <p className="w-[800px] mx-auto text-center mb-10">
         As Emily struggles to fit in at home and at school, she discovers a
         small red puppy who is destined to become her best friend. When Clifford
         magically undergoes one heck of a growth spurt, becomes a gigantic dog
@@ -56,8 +52,46 @@ const MovieDetailsPage = () => {
         him and teaches Emily and her uncle the true meaning of acceptance and
         unconditional love.
       </p>
+      <MovieCredit></MovieCredit>
+      <MovieVideo></MovieVideo>
     </div>
   );
 };
 
+function MovieCredit() {
+  const { movieId } = useParams(); // lấy id từ URL
+  const { data } = useSWR(
+    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${api_key}`,
+    fetcher
+  );
+  if (!data) return null; // hoặc return loading...
+  console.log("MovieDetailPage ~ data: ", data);
+  const {cast} = data;
+  if(!cast || cast.length <= 0) return null;
+  return (
+    <div>
+      <h2 className="text-center text-2xl font-bold mb-10">Casts</h2>
+      <div className="grid grid-cols-4 gap-10 px-10">
+        {cast.length > 0 && cast.slice(0, 4).map((item) => {
+          return (
+            <div className="w-full h-full" key={item.id}>
+              <img src={`https://image.tmdb.org/t/p/original/${item.profile_path}`} alt="" className="w-full h-[300px] object-cover rounded-lg mb-3"/>
+              <h3 className="text-xl text-center font-medium">{item.name}</h3>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  );
+}
+function MovieVideo(){
+  const { movieId } = useParams(); // lấy id từ URL
+  const { data } = useSWR(
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${api_key}`,
+    fetcher
+  );
+  if (!data) return null; // hoặc return loading...
+  console.log("MovieDetailPage ~ data: ", data);
+  return <div></div>
+}
 export default MovieDetailsPage;

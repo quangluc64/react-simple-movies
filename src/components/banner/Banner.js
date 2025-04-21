@@ -40,7 +40,7 @@ function BannerItem({ item }) {
       <img
         src={`https://image.tmdb.org/t/p/original/${poster_path}`}
         alt=""
-        className="w-full h-full rounded-xl object-cover"
+        className="w-full h-full rounded-xl object-cover object-[0_30%]"
       />
       <div className="absolute left-5 bottom-5 text-white">
         <h2 className="text-3xl font-bold mb-5">{title}</h2>

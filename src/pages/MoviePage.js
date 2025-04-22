@@ -3,21 +3,24 @@ import useSWR from "swr";
 import { api_key, fetcher } from "../config";
 import MovieCard from "../components/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
+
+const pageCount = 5;
 const MoviePage = () => {
+  const [nextPage, setNextPage] = useState(1);
   const [filter, setFilter] = useState("");
   const [url, setUrl] = useState(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`
+    `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&page=${nextPage}`
   );
   const handleFilterChange = (e) => setFilter(e.target.value);
   const filerDebounce = useDebounce(filter, 500);
   useEffect(() => {
     if (filerDebounce)
       setUrl(
-        `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${filerDebounce}`
+        `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${filerDebounce}&page=${nextPage}`
       );
     else
-      setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`);
-  }, [filerDebounce]);
+      setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&page=${nextPage}`);
+  }, [filerDebounce, nextPage]);
   const { data } = useSWR(url, fetcher);
   const loading = !data;
   const movies = data?.results || [];
@@ -50,6 +53,7 @@ const MoviePage = () => {
         </button>
       </div>
       {/* === Loading === */}
+
       {loading && (
         <div className="w-10 h-10 rounded-full border-4 border-primary mx-auto border-t-transparent animate-spin"></div>
       )}
@@ -59,15 +63,16 @@ const MoviePage = () => {
             movies.map((item) => <MovieCard key={item.id} item={item} />)}
         </div>
       )}
+
       <div className="flex items-center justify-center gap-x-5 mt-5">
-        <span className="cursor-pointer">
+        <span className="cursor-pointer" onClick={() => setNextPage(nextPage - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            class="size-6"
+            className="size-6"
           >
             <path
               strokeLinecap="round"
@@ -76,15 +81,19 @@ const MoviePage = () => {
             />
           </svg>
         </span>
-        <span className="inline-block leading-none px-4 py-2 bg-white text-slate-900 rounded-md cursor-pointer">1</span>
-        <span className="cursor-pointer">
+        {new Array(pageCount).fill(0).map((item, index) => (
+          <span className="inline-block leading-none px-4 py-2 bg-white text-slate-900 rounded-md cursor-pointer" onClick={() => setNextPage(index + 1)}>
+            {index + 1}
+          </span>
+        ))}
+        <span className="cursor-pointer" onClick={() => setNextPage(nextPage + 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            class="size-6"
+            className="size-6"
           >
             <path
               strokeLinecap="round"

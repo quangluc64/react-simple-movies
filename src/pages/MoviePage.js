@@ -5,23 +5,22 @@ import MovieCard from "../components/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
 const MoviePage = () => {
   const [filter, setFilter] = useState("");
-  const [url, setUrl] = useState(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`)
-  const handleFilterChange = (e) => setFilter(e.target.value)
+  const [url, setUrl] = useState(
+    `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`
+  );
+  const handleFilterChange = (e) => setFilter(e.target.value);
   const filerDebounce = useDebounce(filter, 500);
   useEffect(() => {
-    if(filerDebounce)
-      setUrl(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${filerDebounce}`);
+    if (filerDebounce)
+      setUrl(
+        `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${filerDebounce}`
+      );
     else
       setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`);
-  },[filerDebounce])
-  const { data } = useSWR(
-    url,
-    fetcher
-  );
+  }, [filerDebounce]);
+  const { data } = useSWR(url, fetcher);
+  const loading = !data;
   const movies = data?.results || [];
-
-  
-
   return (
     <div className="py-5 page-container">
       <div className="flex mb-10">
@@ -50,9 +49,50 @@ const MoviePage = () => {
           </svg>
         </button>
       </div>
-      <div className="grid grid-cols-4 gap-10">
-        {movies.length > 0 &&
-          movies.map((item) => <MovieCard key={item.id} item={item} />)}
+      {/* === Loading === */}
+      {loading && (
+        <div className="w-10 h-10 rounded-full border-4 border-primary mx-auto border-t-transparent animate-spin"></div>
+      )}
+      {!loading && (
+        <div className="grid grid-cols-4 gap-10">
+          {movies.length > 0 &&
+            movies.map((item) => <MovieCard key={item.id} item={item} />)}
+        </div>
+      )}
+      <div className="flex items-center justify-center gap-x-5 mt-5">
+        <span className="cursor-pointer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+            />
+          </svg>
+        </span>
+        <span className="inline-block leading-none px-4 py-2 bg-white text-slate-900 rounded-md cursor-pointer">1</span>
+        <span className="cursor-pointer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </span>
       </div>
     </div>
   );

@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { fetcher } from "../config";
+import { api_key, fetcher } from "../config";
 import MovieCard from "../components/movie/MovieCard";
-
+import useDebounce from "../hooks/useDebounce";
 const MoviePage = () => {
+  const [filter, setFilter] = useState("");
+  const [url, setUrl] = useState(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`)
+  const handleFilterChange = (e) => setFilter(e.target.value)
+  const filerDebounce = useDebounce(filter, 500);
+  useEffect(() => {
+    if(filerDebounce)
+      setUrl(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${filerDebounce}`);
+    else
+      setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}`);
+  },[filerDebounce])
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/popular?api_key=685814648889cc009fd6e5dd5ba7986b`,
+    url,
     fetcher
   );
   const movies = data?.results || [];
+
+  
+
   return (
     <div className="py-5 page-container">
       <div className="flex mb-10">
@@ -17,6 +30,7 @@ const MoviePage = () => {
             type="text"
             className="w-full p-4 bg-slate-800 text-white rounded-bl-xl rounded-tl-xl outline-none"
             placeholder="Type here to search ...."
+            onChange={handleFilterChange}
           />
         </div>
         <button className="bg-primary p-3 rounded-tr-xl rounded-br-xl">
@@ -26,7 +40,7 @@ const MoviePage = () => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#fff"
-            class="size-6"
+            className="size-6"
           >
             <path
               strokeLinecap="round"
@@ -37,7 +51,7 @@ const MoviePage = () => {
         </button>
       </div>
       <div className="grid grid-cols-4 gap-10">
-        {movies.length &&
+        {movies.length > 0 &&
           movies.map((item) => <MovieCard key={item.id} item={item} />)}
       </div>
     </div>

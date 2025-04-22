@@ -18,7 +18,7 @@ const Banner = () => {
 
   // Tương đương <=> const movies = data?.results || [];
 
-  console.log("Movies ~ banner: ", movies);
+  // console.log("Movies ~ banner: ", movies);
   return (
     <section className="banner h-[500px] page-container mb-20">
       <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>

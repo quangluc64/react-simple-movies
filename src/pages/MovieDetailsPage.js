@@ -1,14 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import { api_key, fetcher } from "../config";
+import { fetcher, tmdbAPI } from "../config";
 import MovieCard from "../components/movie/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 const MovieDetailsPage = () => {
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=${api_key}`,
+    tmdbAPI.getMovieDetails(movieId),
     fetcher
   );
   if (!data) return null; // hoặc return loading...
@@ -20,14 +20,14 @@ const MovieDetailsPage = () => {
         <div
           className="w-full h-full bg-no-repeat bg-cover"
           style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop_path})`,
+            backgroundImage: `url(${tmdbAPI.imageOriginal(backdrop_path)})`,
             backgroundPosition: "center",
           }}
         ></div>
       </div>
       <div className="max-w-[800px] h-[500px] mx-auto -mt-[250px] relative z-1 pb-10">
         <img
-          src={`https://image.tmdb.org/t/p/original/${poster_path}`}
+          src={tmdbAPI.imageOriginal(poster_path)}
           alt=""
           className="w-full h-full object-cover object-[0_20%] rounded-2xl"
         />
@@ -64,7 +64,7 @@ const MovieDetailsPage = () => {
 function MovieCredit() {
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${api_key}`,
+    tmdbAPI.getMovieMeta(movieId, "credits"),
     fetcher
   );
   if (!data) return null; // hoặc return loading...
@@ -79,7 +79,7 @@ function MovieCredit() {
             return (
               <div className="w-full h-full" key={item.id}>
                 <img
-                  src={`https://image.tmdb.org/t/p/original/${item.profile_path}`}
+                  src={tmdbAPI.imageOriginal(item.profile_path)}
                   alt=""
                   className="w-full h-[300px] object-cover rounded-lg mb-3"
                 />
@@ -94,7 +94,7 @@ function MovieCredit() {
 function MovieVideo() {
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${api_key}`,
+    tmdbAPI.getMovieMeta(movieId, "videos"),
     fetcher
   );
   if (!data) return null; // hoặc return loading...
@@ -134,7 +134,7 @@ function MovieVideo() {
 function MovieSimilar() {
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${api_key}`,
+    tmdbAPI.getMovieMeta(movieId, "similar"),
     fetcher
   );
   if (!data) return null; // hoặc return loading...

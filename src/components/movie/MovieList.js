@@ -1,21 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import MovieCard from "./MovieCard";
-import { fetcher } from "../../config";
+import { fetcher, tmdbAPI } from "../../config";
 import useSWR from "swr";
 const MovieList = ({type}) => {
-  const [movies, setMovies] = useState([]);
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${type}?api_key=685814648889cc009fd6e5dd5ba7986b`,
+    tmdbAPI.getMovieList(type),
     fetcher
   );
-  useEffect(() => {
-    if (data && data.results) {
-      setMovies(data.results);
-    }
-  }, [data]); // chỉ chạy khi `data` thay đổi
-  // console.log(movies);
+  const movies = data?.results || [];
   return (
     <div className="movie-list">
       <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>

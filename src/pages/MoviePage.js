@@ -30,11 +30,12 @@ const MoviePage = () => {
   const loading = !data;
   const movies = data?.results || [];
   useEffect(() => {
-    if (!data || !data.total_results) return;
-    setPageCount(Math.ceil(data.total_results / itemsPerPage));
+    if (!data || !data.total_pages) return;
+    setPageCount(Math.ceil(data.total_pages / itemsPerPage));
+    // Đúng là data.total_results: Load không nổi
   }, [data, itemOffset]);
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % data.total_results;
+    const newOffset = (event.selected * itemsPerPage) % data.total_pages;
     setItemOffset(newOffset);
     setNextPage(event.selected + 1);
   };

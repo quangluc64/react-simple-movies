@@ -26,15 +26,15 @@ const MoviePage = () => {
         `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&page=${nextPage}`
       );
   }, [filerDebounce, nextPage]);
-  const { data } = useSWR(url, fetcher);
+  const { data } = useSWR(url, fetcher);;
   const loading = !data;
   const movies = data?.results || [];
   useEffect(() => {
-    if (!data || !data.total_pages) return;
-    setPageCount(Math.ceil(data.total_pages / itemsPerPage));
+    if (!data || !data.total_results) return;
+    setPageCount(Math.ceil(data.total_results / itemsPerPage));
   }, [data, itemOffset]);
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % data.total_pages;
+    const newOffset = (event.selected * itemsPerPage) % data.total_results;
     setItemOffset(newOffset);
     setNextPage(event.selected + 1);
   };
@@ -87,6 +87,7 @@ const MoviePage = () => {
           pageCount={pageCount}
           previousLabel="< previous"
           renderOnZeroPageCount={null}
+          containerClassName="pagination"
         />
       </div>
 
@@ -111,7 +112,7 @@ const MoviePage = () => {
           </svg>
         </span>
         {new Array(pageCount).fill(0).map((item, index) => (
-          <span
+          <span key={index}
             className="inline-block leading-none px-4 py-2 bg-white text-slate-900 rounded-md cursor-pointer"
             onClick={() => setNextPage(index + 1)}
           >

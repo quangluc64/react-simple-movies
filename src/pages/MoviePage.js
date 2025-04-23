@@ -3,9 +3,12 @@ import useSWR from "swr";
 import { api_key, fetcher } from "../config";
 import MovieCard from "../components/movie/MovieCard";
 import useDebounce from "../hooks/useDebounce";
-
-const pageCount = 5;
+import ReactPaginate from "react-paginate";
+const itemsPerPage = 20;
 const MoviePage = () => {
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+
   const [nextPage, setNextPage] = useState(1);
   const [filter, setFilter] = useState("");
   const [url, setUrl] = useState(
@@ -19,11 +22,22 @@ const MoviePage = () => {
         `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${filerDebounce}&page=${nextPage}`
       );
     else
-      setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&page=${nextPage}`);
+      setUrl(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&page=${nextPage}`
+      );
   }, [filerDebounce, nextPage]);
   const { data } = useSWR(url, fetcher);
   const loading = !data;
   const movies = data?.results || [];
+  useEffect(() => {
+    if (!data || !data.total_pages) return;
+    setPageCount(Math.ceil(data.total_pages / itemsPerPage));
+  }, [data, itemOffset]);
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % data.total_pages;
+    setItemOffset(newOffset);
+    setNextPage(event.selected + 1);
+  };
   return (
     <div className="py-5 page-container">
       <div className="flex mb-10">
@@ -52,8 +66,8 @@ const MoviePage = () => {
           </svg>
         </button>
       </div>
-      {/* === Loading === */}
 
+      {/* === Loading === */}
       {loading && (
         <div className="w-10 h-10 rounded-full border-4 border-primary mx-auto border-t-transparent animate-spin"></div>
       )}
@@ -64,8 +78,23 @@ const MoviePage = () => {
         </div>
       )}
 
-      <div className="flex items-center justify-center gap-x-5 mt-5">
-        <span className="cursor-pointer" onClick={() => setNextPage(nextPage - 1)}>
+      <div className="mt-10">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+        />
+      </div>
+
+      <div className="flex items-center justify-center gap-x-5 mt-5 hidden">
+        <span
+          className="cursor-pointer"
+          onClick={() => setNextPage(nextPage - 1)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -82,11 +111,17 @@ const MoviePage = () => {
           </svg>
         </span>
         {new Array(pageCount).fill(0).map((item, index) => (
-          <span className="inline-block leading-none px-4 py-2 bg-white text-slate-900 rounded-md cursor-pointer" onClick={() => setNextPage(index + 1)}>
+          <span
+            className="inline-block leading-none px-4 py-2 bg-white text-slate-900 rounded-md cursor-pointer"
+            onClick={() => setNextPage(index + 1)}
+          >
             {index + 1}
           </span>
         ))}
-        <span className="cursor-pointer" onClick={() => setNextPage(nextPage + 1)}>
+        <span
+          className="cursor-pointer"
+          onClick={() => setNextPage(nextPage + 1)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

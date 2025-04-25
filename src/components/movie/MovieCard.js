@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../button/Button";
-import { tmdbAPI } from "../../config";
+import Button from "components/button/Button";
+import { tmdbAPI } from "config";
 
 const MovieCard = ({ item }) => {
   const navigate = useNavigate();

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { fetcher, tmdbAPI } from "../../config";
+import { fetcher, tmdbAPI } from "config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import { useNavigate } from "react-router-dom";
-import Button from "../button/Button";
+import Button from "components/button/Button";
 
 const Banner = () => {
   const [movies, setMovies] = useState([]);
@@ -62,7 +62,6 @@ function BannerItem({ item }) {
           onClick={() => {
             navigate(`/movies/${id}`);
           }}
-          className="w-auto"
         >Watch Now</Button>
       </div>
     </div>

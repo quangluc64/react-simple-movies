@@ -1,5 +1,5 @@
 import React from "react";
-const Button = ({className, onClick, children, bgColor}) => {
+const Button = ({className, onClick, children, bgColor, full = false}) => {
   let bgClass = "bg-primary";
   switch (bgColor) {
     case "primary":
@@ -12,7 +12,7 @@ const Button = ({className, onClick, children, bgColor}) => {
   }
   return (
     <button
-      className={`w-full px-6 py-3 rounded-lg font-bold text-xl mt-auto ${bgClass} ${className}`}
+      className={`${full ? "w-full" : "w-auto"} px-6 py-3 rounded-lg font-bold text-xl mt-auto ${bgClass} ${className}`}
       onClick={onClick}
     >
       {children}

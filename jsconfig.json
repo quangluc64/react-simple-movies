@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+  }
+}
+// import MovieCard from "../components/movie/MovieCard";
+// => import MovieCard from "components/movie/MovieCard";
+
+
+
+
+
+

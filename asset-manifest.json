@@ -1,15 +1,21 @@
 {
   "files": {
-    "main.css": "/react-simple-movies/static/css/main.9b8e3261.css",
-    "main.js": "/react-simple-movies/static/js/main.c445a931.js",
+    "main.css": "/react-simple-movies/static/css/main.85f17a3f.css",
+    "main.js": "/react-simple-movies/static/js/main.c77aa43a.js",
+    "static/js/149.5dd909d2.chunk.js": "/react-simple-movies/static/js/149.5dd909d2.chunk.js",
+    "static/js/588.b07977cc.chunk.js": "/react-simple-movies/static/js/588.b07977cc.chunk.js",
+    "static/js/662.800d29b4.chunk.js": "/react-simple-movies/static/js/662.800d29b4.chunk.js",
     "static/js/453.d58a996c.chunk.js": "/react-simple-movies/static/js/453.d58a996c.chunk.js",
     "index.html": "/react-simple-movies/index.html",
-    "main.9b8e3261.css.map": "/react-simple-movies/static/css/main.9b8e3261.css.map",
-    "main.c445a931.js.map": "/react-simple-movies/static/js/main.c445a931.js.map",
+    "main.85f17a3f.css.map": "/react-simple-movies/static/css/main.85f17a3f.css.map",
+    "main.c77aa43a.js.map": "/react-simple-movies/static/js/main.c77aa43a.js.map",
+    "149.5dd909d2.chunk.js.map": "/react-simple-movies/static/js/149.5dd909d2.chunk.js.map",
+    "588.b07977cc.chunk.js.map": "/react-simple-movies/static/js/588.b07977cc.chunk.js.map",
+    "662.800d29b4.chunk.js.map": "/react-simple-movies/static/js/662.800d29b4.chunk.js.map",
     "453.d58a996c.chunk.js.map": "/react-simple-movies/static/js/453.d58a996c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9b8e3261.css",
-    "static/js/main.c445a931.js"
+    "static/css/main.85f17a3f.css",
+    "static/js/main.c77aa43a.js"
   ]
 }

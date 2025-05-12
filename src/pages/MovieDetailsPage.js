@@ -5,7 +5,6 @@ import { fetcher, tmdbAPI } from "config";
 import MovieCard from "components/movie/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
-import { type } from "@testing-library/user-event/dist/type";
 const MovieDetailsPage = () => {
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
@@ -55,9 +54,12 @@ const MovieDetailsPage = () => {
         him and teaches Emily and her uncle the true meaning of acceptance and
         unconditional love.
       </p>
-      <MovieCredit></MovieCredit>
+      {/* <MovieCredit></MovieCredit>
       <MovieVideo></MovieVideo>
-      <MovieSimilar></MovieSimilar>
+      <MovieSimilar></MovieSimilar> */}
+      <MovieMeta type="credits"></MovieMeta>
+      <MovieMeta type="videos"></MovieMeta>
+      <MovieMeta type="similar"></MovieMeta>
     </div>
   );
 };
@@ -155,7 +157,7 @@ function MovieSimilar() {
     </div>
   );
 }
-function MovieMeta({type="video"}){
+function MovieMeta({type="videos"}){
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
     tmdbAPI.getMovieMeta(movieId, type),
@@ -188,7 +190,7 @@ function MovieMeta({type="video"}){
   } else {
     const { results } = data;
     if (!results || results.length <= 0) return null;
-    if(type==="video") {
+    if(type==="videos") {
       return (
         <div className="py-10">
           <div className="flex flex-col gap-10">

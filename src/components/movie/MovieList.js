@@ -4,6 +4,8 @@ import "swiper/scss";
 import MovieCard from "./MovieCard";
 import { fetcher, tmdbAPI } from "config";
 import useSWR from "swr";
+import PropTypes from "prop-types";
+import { withErrorBoundary } from "react-error-boundary";
 const MovieList = ({type}) => {
   const { data } = useSWR(
     tmdbAPI.getMovieList(type),
@@ -22,4 +24,17 @@ const MovieList = ({type}) => {
     </div>
   );
 };
-export default MovieList;
+MovieList.propTypes = {
+  type: PropTypes.string.isRequired,
+};
+function FallbackComponent(){
+  return (
+    <p className="bg-red-50 text-red-400">
+      Something went wrong with this component
+    </p>
+  )
+}
+export default withErrorBoundary(MovieList,{
+  FallbackComponent
+}
+);

@@ -5,6 +5,7 @@ import { fetcher, tmdbAPI } from "config";
 import MovieCard from "components/movie/MovieCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
+import { type } from "@testing-library/user-event/dist/type";
 const MovieDetailsPage = () => {
   const { movieId } = useParams(); // lấy id từ URL
   const { data } = useSWR(
@@ -98,10 +99,8 @@ function MovieVideo() {
     fetcher
   );
   if (!data) return null; // hoặc return loading...
-  // console.log(data);
   const { results } = data;
   if (!results || results.length <= 0) return null;
-  // console.log(results);
 
   return (
     <div className="py-10">
@@ -138,10 +137,8 @@ function MovieSimilar() {
     fetcher
   );
   if (!data) return null; // hoặc return loading...
-  // console.log("Movie Similar ~ data", data);
   const { results } = data;
   if (!results || results.length <= 0) return null;
-  console.log(results);
   return (
     <div className="py-10">
       <h2 className="text-center text-2xl font-bold mb-5">Similar movies</h2>
@@ -157,5 +154,86 @@ function MovieSimilar() {
       </div>
     </div>
   );
+}
+function MovieMeta({type="video"}){
+  const { movieId } = useParams(); // lấy id từ URL
+  const { data } = useSWR(
+    tmdbAPI.getMovieMeta(movieId, type),
+    fetcher
+  );
+  if (!data) return null; // hoặc return loading...
+  if(type==="credits"){
+    const { cast } = data;
+    if (!cast || cast.length <= 0) return null;
+    return (
+      <div className="py-10">
+        <h2 className="text-center text-2xl font-bold mb-10">Casts</h2>
+        <div className="grid grid-cols-4 gap-10 px-10">
+          {cast.length > 0 &&
+            cast.slice(0, 4).map((item) => {
+              return (
+                <div className="w-full h-full" key={item.id}>
+                  <img
+                    src={tmdbAPI.imageOriginal(item.profile_path)}
+                    alt=""
+                    className="w-full h-[300px] object-cover rounded-lg mb-3"
+                  />
+                  <h3 className="text-xl text-center font-medium">{item.name}</h3>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    );
+  } else {
+    const { results } = data;
+    if (!results || results.length <= 0) return null;
+    if(type==="video") {
+      return (
+        <div className="py-10">
+          <div className="flex flex-col gap-10">
+            {results.length > 0 &&
+              results.slice(0, 5).map((item) => (
+                <div key={item.id}>
+                  <h3 className="text-xl font-medium bg-primary px-4 py-2 mb-4 inline-block rounded-md">
+                    {item.name}
+                  </h3>
+                  <div className="w-full aspect-video">
+                    <iframe
+                      width="720"
+                      height="405"
+                      src={`https://www.youtube.com/embed/${item.key}`}
+                      title={item.name}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                      className="w-full h-full object-fill"
+                    ></iframe>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      );
+    }
+    if(type==="similar"){
+      return (
+        <div className="py-10">
+          <h2 className="text-center text-2xl font-bold mb-5">Similar movies</h2>
+          <div className="movie-list px-10">
+            <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>
+              {results.length > 0 &&
+                results.map((item) => (
+                  <SwiperSlide key={item.id}>
+                    <MovieCard item={item}></MovieCard>
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          </div>
+        </div>
+      );  
+    }
+  }
 }
 export default MovieDetailsPage;

@@ -5,13 +5,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import { useNavigate } from "react-router-dom";
 import Button from "components/button/Button";
+import LoadingSkeleton from "components/loading/LoadingSkeleton";
 
 const Banner = () => {
   const [movies, setMovies] = useState([]);
-  const { data } = useSWR(
-    tmdbAPI.getMovieList("upcoming"),
-    fetcher
-  );
+  const { data, error } = useSWR(tmdbAPI.getMovieList("upcoming"), fetcher);
+  const isLoading = !data && !error;
   useEffect(() => {
     if (data && data.results) {
       setMovies(data.results);
@@ -23,14 +22,17 @@ const Banner = () => {
   // console.log("Movies ~ banner: ", movies);
   return (
     <section className="banner h-[500px] page-container mb-20">
-      <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>
-        {movies.length > 0 &&
-          movies.map((item) => (
-            <SwiperSlide key={item.id}>
-              <BannerItem item={item}></BannerItem>
-            </SwiperSlide>
-          ))}
-      </Swiper>
+      {isLoading && <BannerItemSkeleton></BannerItemSkeleton>}
+      {!isLoading && (
+        <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>
+          {movies.length > 0 &&
+            movies.map((item) => (
+              <SwiperSlide key={item.id}>
+                <BannerItem item={item}></BannerItem>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      )}
     </section>
   );
 };
@@ -62,10 +64,48 @@ function BannerItem({ item }) {
           onClick={() => {
             navigate(`/movies/${id}`);
           }}
-        >Watch Now</Button>
+        >
+          Watch Now
+        </Button>
       </div>
     </div>
   );
 }
-
 export default Banner;
+export const BannerItemSkeleton = () => {
+  return (
+    <div className="w-full h-full rounded-xl bg-white relative">
+      <div className="overlay absolute inset-0 rounded-xl bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)]"></div>
+      <LoadingSkeleton className="w-full h-full rounded-xl"></LoadingSkeleton>
+      <div className="absolute left-5 bottom-5 text-white">
+        <LoadingSkeleton
+          width="200px"
+          height="50px"
+          className="mb-5 rounded-lg"
+        ></LoadingSkeleton>
+        <div className="flex items-center gap-x-3 mb-8">
+          <LoadingSkeleton
+            width="80px"
+            height="30px"
+            className="rounded"
+          ></LoadingSkeleton>
+          <LoadingSkeleton
+            width="80px"
+            height="30px"
+            className="rounded"
+          ></LoadingSkeleton>
+          <LoadingSkeleton
+            width="80px"
+            height="30px"
+            className="rounded"
+          ></LoadingSkeleton>
+        </div>
+        <LoadingSkeleton
+          width="150px"
+          height="50px"
+          className="rounded-lg"
+        ></LoadingSkeleton>
+      </div>
+    </div>
+  );
+};

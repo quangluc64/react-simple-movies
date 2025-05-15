@@ -3,8 +3,10 @@ import useSWR from "swr";
 import { fetcher, tmdbAPI } from "config";
 import MovieCard, { MovieCardSkeleton } from "components/movie/MovieCard";
 import useDebounce from "hooks/useDebounce";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 import { v4 } from "uuid";
+import Button from "components/button/Button";
+import useSWRInfinite from "swr/infinite";
 const itemsPerPage = 20;
 const MoviePage = () => {
   const [pageCount, setPageCount] = useState(0);
@@ -19,9 +21,15 @@ const MoviePage = () => {
     if (filerDebounce) setUrl(tmdbAPI.getMovieSearch(filerDebounce, nextPage));
     else setUrl(tmdbAPI.getMovieList("popular", nextPage));
   }, [filerDebounce, nextPage]);
-  const { data } = useSWR(url, fetcher);
+
+  const { data, mutate, size, setSize } = useSWRInfinite(
+    (index) =>
+    url.replace("page=1",`page=${index+1}`),
+    fetcher
+  );
+  const movies = data ? data.reduce((a, b) => a.concat(b.results),[]) : [];
+  console.log("MoviePage ~ movies", movies);
   const loading = !data;
-  const movies = data?.results || [];
   useEffect(() => {
     if (!data || !data.total_pages) return;
     setPageCount(Math.ceil(data.total_pages / itemsPerPage));
@@ -78,8 +86,12 @@ const MoviePage = () => {
             movies.map((item) => <MovieCard key={item.id} item={item} />)}
         </div>
       )}
+      {/* Load more */}
+      <div className="mt-10 text-center">
+        <Button>Load more</Button>
+      </div>
 
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <ReactPaginate
           breakLabel="..."
           nextLabel="next >"
@@ -90,7 +102,7 @@ const MoviePage = () => {
           renderOnZeroPageCount={null}
           containerClassName="pagination"
         />
-      </div>
+      </div> */}
 
       <div className="flex items-center justify-center gap-x-5 mt-5 hidden">
         <span

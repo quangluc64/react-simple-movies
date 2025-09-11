@@ -75,14 +75,14 @@ const MoviePage = () => {
         <div className="w-10 h-10 rounded-full border-4 border-primary mx-auto border-t-transparent animate-spin"></div>
       )} */}
       {loading && (
-        <div className="grid grid-cols-4 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-10">
           {new Array(itemsPerPage).fill(0).map(() => (
             <MovieCardSkeleton key={v4()}></MovieCardSkeleton>
           ))}
         </div>
       )}
       {!loading && (
-        <div className="grid grid-cols-4 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-10">
           {movies.length > 0 &&
             movies.map((item) => <MovieCard key={item.id} item={item} />)}
         </div>

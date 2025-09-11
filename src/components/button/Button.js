@@ -12,7 +12,7 @@ const Button = ({className="", onClick, children, bgColor, full = false, ...prop
   }
   return (
     <button
-      className={`${full ? "w-full" : "w-auto"} px-6 py-3 rounded-lg font-bold text-xl mt-auto ${bgClass} ${className}`}
+      className={`${full ? "w-full" : "w-auto"} px-3 py-2 sm:px-6 sm:py-3 rounded-lg font-bold text-xl mt-auto ${bgClass} ${className}`}
       onClick={onClick}
       {...props}
     >

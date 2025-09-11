@@ -15,7 +15,7 @@ const MovieDetailsPage = () => {
   const { backdrop_path, poster_path, title, genres } = data;
   return (
     <div className="py-10">
-      <div className="w-full h-[600px] relative">
+      <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] relative">
         <div className="absolute inset-0 bg-black bg-opacity-70"></div>
         <div
           className="w-full h-full bg-no-repeat bg-cover"
@@ -25,7 +25,7 @@ const MovieDetailsPage = () => {
           }}
         ></div>
       </div>
-      <div className="max-w-[800px] h-[500px] mx-auto -mt-[250px] relative z-1 pb-10">
+      <div className="max-w-[80%] h-[250px] sm:h-[350px] md:h-[450px] lg:h-[500px] mx-auto mt-[-20%] relative z-1 pb-10">
         <img
           src={tmdbAPI.imageOriginal(poster_path)}
           alt=""
@@ -44,7 +44,7 @@ const MovieDetailsPage = () => {
             </span>
           ))}
       </div>
-      <p className="w-[800px] mx-auto text-center mb-10">
+      <p className="max-w-[90%] mx-auto text-center mb-10">
         As Emily struggles to fit in at home and at school, she discovers a
         small red puppy who is destined to become her best friend. When Clifford
         magically undergoes one heck of a growth spurt, becomes a gigantic dog
@@ -170,7 +170,7 @@ function MovieMeta({type="videos"}){
     return (
       <div className="py-10">
         <h2 className="text-center text-2xl font-bold mb-10">Casts</h2>
-        <div className="grid grid-cols-4 gap-10 px-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-10 px-5">
           {cast.length > 0 &&
             cast.slice(0, 4).map((item) => {
               return (
@@ -178,7 +178,7 @@ function MovieMeta({type="videos"}){
                   <img
                     src={tmdbAPI.imageOriginal(item.profile_path)}
                     alt=""
-                    className="w-full h-[300px] object-cover rounded-lg mb-3"
+                    className="w-full h-[250px] sm:h-[300px] object-cover rounded-lg mb-3"
                   />
                   <h3 className="text-xl text-center font-medium">{item.name}</h3>
                 </div>
@@ -223,7 +223,7 @@ function MovieMeta({type="videos"}){
       return (
         <div className="py-10">
           <h2 className="text-center text-2xl font-bold mb-5">Similar movies</h2>
-          <div className="movie-list px-10">
+          <div className="movie-list pl-5">
             <Swiper grabCursor="true" spaceBetween={40} slidesPerView={"auto"}>
               {results.length > 0 &&
                 results.map((item) => (
